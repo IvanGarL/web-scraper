@@ -48,6 +48,7 @@ export class WebsiteScraper {
                     const tagUrl = $(element).attr('href');
 
                     if (tagDescription.length && tagUrl && tagUrl.startsWith('http')) {
+                        console.log('inserted tag into scraper map: ', tagDescription, tagUrl);
                         this.aTagsMap.set(tagDescription, tagUrl);
                     }
                 } catch (error) {
@@ -55,5 +56,9 @@ export class WebsiteScraper {
                 }
             }
         });
+    }
+
+    public getLinks(): Map<string, string> {
+        return this.aTagsMap;
     }
 }

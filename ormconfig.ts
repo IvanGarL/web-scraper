@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { ConnectionOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 

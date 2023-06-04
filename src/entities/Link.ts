@@ -1,20 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Page } from './Page';
-
 
 @Entity()
 export class Link {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    /** Page id */
+    @Index()
+    @Column('uuid')
+    pageId: string;
+
     /**
-     * description of the scrapped tag 
+     * description of the scrapped tag
      */
     @Column({ type: 'text' })
     description: string;
 
     /**
-     * url of the scrapped tag 
+     * url of the scrapped tag
      */
     @Column({ type: 'text' })
     url: string;
@@ -22,10 +26,7 @@ export class Link {
     /**
      * user linked to the scrapping request
      */
-    @ManyToOne(
-        () => Page,
-        p => p.links,
-    )
+    @ManyToOne(() => Page, (p) => p.links)
     @JoinColumn({ name: 'page_id' })
     page: Page;
 
@@ -34,4 +35,9 @@ export class Link {
      */
     @CreateDateColumn()
     createdAt: Date;
+
+    constructor(description: string, url: string) {
+        this.description = description;
+        this.url = url;
+    }
 }
