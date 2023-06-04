@@ -54,7 +54,9 @@ export default class ScraperService {
                 const { _id } = req.decodedToken;
 
                 const scrapedWebsite = await manager.findOne(Website, { where: { url: website, userId: _id } });
-                const lastDateConsultedDiff = DateTime.fromJSDate(new Date()).diffNow('hours').hours;
+                const lastDateConsultedDiff = DateTime.fromJSDate(scrapedWebsite.lastConsultedAt).diffNow(
+                    'hours',
+                ).hours;
                 if (scrapedWebsite && lastDateConsultedDiff < 24) {
                     await manager.update(
                         Website,
