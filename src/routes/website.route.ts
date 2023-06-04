@@ -3,7 +3,7 @@ import Route from '../interfaces/routes.interface';
 import WebsiteService from '../services/website.service';
 
 /**
- * Controller for the Scraper service
+ * Controller for the Website service
  */
 export class WebsiteRoute implements Route {
     public path = '/website';

@@ -1,20 +1,18 @@
 import { Response } from 'express';
 import * as J from 'joi';
 import { EntityManager } from 'typeorm';
+import { Link } from '../entities/Link';
 import { Roles } from '../entities/User';
 import { Website } from '../entities/Website';
 import { AuthRequest } from '../interfaces/token.interface';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { PaginationUtils } from '../utils/pagination';
-import HttpError from '../exceptions/HttpException';
-import { Link } from '../entities/Link';
 
 export default class WebsiteService {
     /**
-     *
-     * @param req
-     * @param res
-     * @returns
+     * Gets all the scraped websites from the user
+     * @param req http request
+     * @param res http server response
      */
     getScrapedWebsites = async (req: AuthRequest, res: Response): Promise<void> => {
         const getScrapedWebsitesValidation = J.object({
@@ -53,10 +51,9 @@ export default class WebsiteService {
     };
 
     /**
-     * 
-     * @param req 
-     * @param res 
-     * @returns 
+     * Get the links from a website scraped by the user
+     * @param req http request
+     * @param res http server response
      */
     getWebsiteLinks = async (req: AuthRequest, res: Response): Promise<void> => {
         const getWebsiteLinksBodyValidation = J.object({
@@ -82,14 +79,12 @@ export default class WebsiteService {
                     .andWhere('website.url = :url', { url: website })
                     .orderBy('links.id', 'DESC');
 
-                
                 const linksResults = await PaginationUtils.getPageOfQuery({
                     query: linksQuery,
                     orderingField: 'id',
                     entityAlias: 'links',
                     page: Number(page ?? 1),
                 });
-
 
                 const links = linksResults.currentPage.map((l) => ({
                     name: l.description,
@@ -100,5 +95,5 @@ export default class WebsiteService {
                 res.status(200).send({ links, pagesCount: linksResults.pagesCount });
             },
         });
-    }
+    };
 }

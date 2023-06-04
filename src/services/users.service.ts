@@ -1,6 +1,6 @@
-import * as J from 'joi';
 import { Request, Response } from 'express';
 import { UserLogInRequest, UserSignUpRequest } from 'interfaces/user.interface';
+import * as J from 'joi';
 import { EntityManager } from 'typeorm';
 import { Roles, User } from '../entities/User';
 import HttpError from '../exceptions/HttpException';
@@ -43,11 +43,10 @@ export default class UsersService {
                     }
 
                     // validates password
-                    await manager.transaction(async tmanager => {
-    
+                    await manager.transaction(async (tmanager) => {
                         const hashPass = await hashPassword(password);
                         newUser = new User(name ? name.trim() : null, email.toLowerCase(), hashPass, role);
-    
+
                         newUser = await tmanager.save(newUser);
                         token = generateJWT(newUser);
                     });
