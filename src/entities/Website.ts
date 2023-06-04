@@ -12,7 +12,7 @@ import { Link } from './Link';
 import { User } from './User';
 
 @Entity()
-export class Page {
+export class Website {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -22,19 +22,19 @@ export class Page {
     userId: string;
 
     /**
-     * url of the page
+     * url of the website
      */
     @Column({ type: 'varchar', length: 500 })
     url: string;
 
     /**
-     * times the page has been consulted
+     * times the website has been consulted
      */
     @Column({ default: 1 })
     timesConsulted: number;
 
     /**
-     * last time the page was consulted
+     * last time the website was consulted
      */
     @Column({ nullable: true })
     lastConsultedAt: Date;
@@ -48,14 +48,14 @@ export class Page {
     /**
      * user linked to the scrapping request
      */
-    @ManyToOne(() => User, (u) => u.pageRequestHistory)
+    @ManyToOne(() => User, (u) => u.websiteHistory)
     @JoinColumn({ name: 'user_id' })
     user: User;
 
     /**
      * user linked to the scrapping request
      */
-    @OneToMany(() => Link, (l) => l.page)
+    @OneToMany(() => Link, (l) => l.website)
     links: Link[];
 
     constructor(url: string) {

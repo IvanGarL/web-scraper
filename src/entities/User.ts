@@ -1,6 +1,6 @@
 import { Chance } from 'chance';
 import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Page } from './Page';
+import { Website } from './Website';
 
 /**
  * Enum of the available roles for a user
@@ -12,7 +12,6 @@ export enum Roles {
 
 @Entity()
 export class User {
-    
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -42,13 +41,10 @@ export class User {
     role: Roles;
 
     /**
-     * Requests history of the scraped pages
+     * Requests history of the scraped websites
      */
-    @OneToMany(
-        () => Page,
-        s => s.user,
-    )
-    pageRequestHistory: Page[];
+    @OneToMany(() => Website, (s) => s.user)
+    websiteHistory: Website[];
 
     /**
      * Date of creation of the user
@@ -56,12 +52,7 @@ export class User {
     @CreateDateColumn()
     createdAt: Date;
 
-    constructor(
-        name: string,
-        email: string,
-        password: string,
-        role: Roles,
-    ) {
+    constructor(name: string, email: string, password: string, role: Roles) {
         this.id = new Chance().guid();
         this.email = email;
         this.name = name;

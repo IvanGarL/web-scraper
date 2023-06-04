@@ -16,6 +16,5 @@ export class ScraperRoute implements Route {
 
     private initializeRoutes() {
         this.router.post(`${this.path}/website`, this.scraperService.scrapeWebsite);
-        // this.router.post(`${this.path}/`, this.scraperService.logIn);
     }
 }

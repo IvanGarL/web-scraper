@@ -37,9 +37,10 @@ export class WebsiteScraper {
      */
     public async scrapeWebsite(baseURL: string): Promise<void> {
         const response = await this.makeAxiosGETRequest(baseURL);
+        let linksCount = 0;
         const $ = load(response);
         $('a').each((index, element) => {
-            if (index <= MAX_A_TAGS_TO_SCRAPE) {
+            if (linksCount <= MAX_A_TAGS_TO_SCRAPE) {
                 try {
                     const tagDescription = $(element)
                         .text()
@@ -48,8 +49,8 @@ export class WebsiteScraper {
                     const tagUrl = $(element).attr('href');
 
                     if (tagDescription.length && tagUrl && tagUrl.startsWith('http')) {
-                        console.log('inserted tag into scraper map: ', tagDescription, tagUrl);
                         this.aTagsMap.set(tagDescription, tagUrl);
+                        linksCount++;
                     }
                 } catch (error) {
                     console.error('Error inserting <a> tag to the scraper <a> tags map: ', error);
@@ -58,7 +59,7 @@ export class WebsiteScraper {
         });
     }
 
-    public getLinks(): Map<string, string> {
-        return this.aTagsMap;
+    public getLinks(): IterableIterator<[string, string]> {
+        return this.aTagsMap.entries();
     }
 }
