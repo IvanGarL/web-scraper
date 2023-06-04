@@ -1,5 +1,15 @@
 # web-scrapper
 
+Tools used to implement the solution
+- Express: expose the BackEnd server APIs with a routing framework built-in the library.  
+- TypeORM: implement the relational database schema in the application layer supported on the ORM features.  
+- PostgreSQL: relational database system.  
+- Cheerio: scraping tool.  
+- Axios: external REST request tool.  
+- Bcrypt: cyphering library.
+- JWT: used to handle authentication and authorization of the BackEnd APIs
+- Joi: helps to run REST request body and query-params validations.
+
 Instructions to run the server
 
 - Deploy on local machine.  
