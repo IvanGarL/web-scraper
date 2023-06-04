@@ -52,15 +52,9 @@ export const generateJWT = (user: User): string => {
  * @returns 
  */
 export const decodeToken = (token: string): DecodedToken => {
-    const publicKey = `-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZnTCMMH7qOoGxTRdjxc24nCd+
-BYUWYc6czU2CX3Q8LVo5NCNWurOeNvVqi63BnO/S+5x8Vh04CZRK9Pz3LP/5xP/S
-rurC+YbQ9ELzoxX74aZ0Ut10V5aK5Zcu5TZVnZqDld6bkUnBk6NDGe9V2FK50Mad
-y0U7c8sO0jrvj3uzcwIDAQAB
------END PUBLIC KEY-----`;
+    const publicKey = process.env.PUBLIC_KEY;
 
-    const publicKeyBuffer = Buffer.from(publicKey, 'utf-8');
-    const decoded: any = jwt.verify(token, publicKeyBuffer);
+    const decoded: any = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
 
     return {
         _id: decoded.id,

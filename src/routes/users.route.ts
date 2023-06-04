@@ -2,7 +2,6 @@ import { Router } from 'express';
 import Route from '../interfaces/routes.interface';
 import UsersService from '../services/users.service';
 
-// In MVC this could be a Controller
 /**
  * Controller for the Users service
  */

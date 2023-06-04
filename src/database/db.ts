@@ -4,7 +4,7 @@ import config from '../../ormconfig';
 /**
  * Creates a connection with the database and return the EntityManager
  * associated with this db
- * @returns 
+ * @returns
  */
 export const getConnection = async (): Promise<EntityManager> => {
     const connectionManager = getConnectionManager();

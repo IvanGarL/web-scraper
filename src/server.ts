@@ -1,11 +1,11 @@
 import 'reflect-metadata';
-import { StocksRoute } from './routes/stock.routes';
 import App from './app';
 import { UsersRoute } from './routes/users.route';
+import { ScraperRoute } from './routes/scraper.route';
 
 const app = new App([
     new UsersRoute(),
-    // new StocksRoute(),
+    new ScraperRoute(),
 ]);
 
 app.listen();

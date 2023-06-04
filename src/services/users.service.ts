@@ -53,7 +53,7 @@ export default class UsersService {
                     });
                 } catch (error) {
                     console.error('Error creating user', error);
-                    throw new HttpError(error.status ?? 500, `Error creating user: ${JSON.stringify(error)}`);
+                    throw new HttpError(error.status ?? 500, `Error creating user: ${error}`);
                 }
 
                 return res.status(201).send({
