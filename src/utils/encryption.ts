@@ -5,9 +5,9 @@ import HttpError from '../exceptions/HttpException';
 import { DecodedToken } from '../interfaces/token.interface';
 
 /**
- * 
- * @param password 
- * @returns 
+ * Hashes a password using bcrypt and a salt of 10 rounds
+ * @param {string} password plain text password
+ * @returns {string} hashed password
  */
 export const hashPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
@@ -15,9 +15,9 @@ export const hashPassword = async (password: string): Promise<string> => {
 };
 
 /**
- * 
- * @param inputPassword 
- * @param hashedPassword 
+ * Validates if a plain text password matches a hashed password
+ * @param {string} inputPassword 
+ * @param {string} hashedPassword 
  */
 export const passwordMatch = (inputPassword: string, hashedPassword: string) => {
     if (!bcrypt.compareSync(inputPassword, hashedPassword)) {
@@ -26,9 +26,10 @@ export const passwordMatch = (inputPassword: string, hashedPassword: string) => 
 };
 
 /**
- * 
- * @param user 
- * @returns 
+ * Generates a JWT token using the user information and RSA256 algorithm
+ * with asymmetric keys
+ * @param {User} user information to be encoded in the token 
+ * @returns {string} JWT token
  */
 export const generateJWT = (user: User): string => {
     const superSecretKey = process.env.SECRET_KEY;
@@ -47,9 +48,9 @@ export const generateJWT = (user: User): string => {
 };
 
 /**
- * 
- * @param token 
- * @returns 
+ * Decodes a JWT token using the public key and RSA256 algorithm
+ * @param {string} token 
+ * @returns {DecodedToken}
  */
 export const decodeToken = (token: string): DecodedToken => {
     const publicKey = process.env.PUBLIC_KEY;

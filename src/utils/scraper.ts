@@ -13,8 +13,9 @@ export class WebsiteScraper {
     }
 
     /**
-     *
-     * @param baseURL
+     * Makes a GET request to the given URL
+     * @param {string} baseURL the URL to make the request
+     * @returns {Promise<string>} the plain html website response
      */
     private async makeAxiosGETRequest(baseURL: string): Promise<string> {
         const options: AxiosRequestConfig = {
@@ -32,8 +33,8 @@ export class WebsiteScraper {
     }
 
     /**
-     *
-     * @param baseURL
+     * Scrapes the website and saves the <a> tags to the scraper map
+     * @param {string} baseURL the URL to scrape
      */
     public async scrapeWebsite(baseURL: string): Promise<void> {
         const response = await this.makeAxiosGETRequest(baseURL);
