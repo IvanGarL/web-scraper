@@ -7,7 +7,8 @@
         "debug": "cross-env NODE_ENV=./src node --inspect -r ts-node src/server.ts",
         "build": "tsc",
         "test": "jest --forceExit --detectOpenHandles",
-        "lint": "tslint -p tsconfig.json -c tslint.json"
+        "lint": "tslint -p tsconfig.json -c tslint.json",
+        "docs": "npx typedoc --entryPointStrategy expand ./src --out ./docs"
     },
     "dependencies": {
         "@types/bcrypt": "^3.0.0",
@@ -45,6 +46,7 @@
         "ts-jest": "^29.1.0",
         "ts-node": "^10.9.1",
         "ts-node-dev": "^1.1.6",
+        "typedoc": "^0.24.8",
         "typescript": "^4.1.6"
     }
 }

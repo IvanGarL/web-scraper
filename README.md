@@ -29,3 +29,4 @@ Instructions to run the server
     just run ```docker-compose up -d``` in terminal in the root directory
 
 - Docs:  
+    Theres the option of exploring the services using the Postman collection available in the root directory. Import the file 'Website scraper server.postman_collection.json' to postman and create a new env variable called ```basicUrl``` with the value of 'http://localhost:8080'.
