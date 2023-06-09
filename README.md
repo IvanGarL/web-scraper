@@ -1,4 +1,5 @@
 # web-scrapper
+NodeJS server that enables scraping websites using a basic user authentication
 
 Tools used to implement the solution
 - Express: expose the BackEnd server APIs with a routing framework built-in the library.  
