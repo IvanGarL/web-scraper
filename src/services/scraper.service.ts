@@ -10,6 +10,9 @@ import { AuthRequest } from '../interfaces/token.interface';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { WebsiteScraper } from '../utils/scraper';
 
+/**
+ * Controller for the Scraper service
+ */
 export default class ScraperService {
     private scraper: WebsiteScraper;
 
@@ -37,9 +40,22 @@ export default class ScraperService {
     }
 
     /**
-     * Scrapes a website and saves it to the database
-     * @param req http request
-     * @param res http server response
+     * @api {post} /scraper/website Scrapes a website and saves it to the database
+     * @apiName ScrapeWebsite
+     * @apiGroup Scraper
+     * @apiVersion  1.0.0
+     * @apiPermission USER
+     * @apiHeader {String} Authorization Bearer token
+     * @apiParam  {String} website Website to scrape
+     * @apiSuccess (200) {String} message Website scraped successfully
+     * @apiError (400) {String} message Error scraping website
+     * @apiError (400) {String} message Website already scraped
+     * @apiError (401) {String} message Unauthorized
+     * @apiError (500) {String} message Internal server error
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *    "message": "Website scraped successfully"
+     * }
      */
     scrapeWebsite = async (req: AuthRequest, res: Response): Promise<void> => {
         const scrapeWebsiteValidation = J.object({

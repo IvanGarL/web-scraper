@@ -8,7 +8,8 @@
         "build": "tsc",
         "test": "jest --forceExit --detectOpenHandles",
         "lint": "tslint -p tsconfig.json -c tslint.json",
-        "docs": "npx typedoc --entryPointStrategy expand ./src --out ./docs"
+        "docs": "npx typedoc --entryPointStrategy expand ./src --out ./docs",
+        "api-docs": "npx apidoc -i ./src/services -o docs/apidoc/ -d -q"
     },
     "dependencies": {
         "@types/bcrypt": "^3.0.0",
@@ -39,6 +40,7 @@
     "devDependencies": {
         "@types/express-serve-static-core": "^4.17.30",
         "@types/jest": "^29.5.2",
+        "apidoc": "^1.0.3",
         "jest": "^29.5.0",
         "nodemon": "^2.0.22",
         "supertest": "^6.3.3",

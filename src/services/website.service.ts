@@ -9,10 +9,35 @@ import { authMiddleware } from '../middlewares/auth.middleware';
 import { PaginationUtils } from '../utils/pagination';
 
 export default class WebsiteService {
+    
     /**
-     * Gets all the scraped websites from the user
-     * @param req http request
-     * @param res http server response
+     * @api {get} /website/all Get all the websites scraped by the user
+     * @apiName GetScrapedWebsites
+     * @apiGroup Website
+     * @apiVersion  1.0.0
+     * @apiPermission USER
+     * @apiHeader {String} Authorization Bearer token
+     * @apiParam  {Number} [page=1] Page number
+     * @apiSuccess (200) {Object[]} websites List of websites
+     * @apiSuccess (200) {String} websites.url Website url
+     * @apiSuccess (200) {Number} websites.totalLinks Total links scraped from the website
+     * @apiSuccess (200) {Number} pagesCount Total number of pages
+     * @apiError (401) {String} message Unauthorized
+     * @apiError (500) {String} message Internal server error
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *   "websites": [
+     *     {
+     *          "url": "https://www.mock-website.com",
+     *          "totalLinks": 10
+     *     },
+     *     {
+     *          "url": "https://www.mock-website2.com",
+     *          "totalLinks": 5
+     *     }
+     *   ],
+     *   "pagesCount": 1
+     * }
      */
     getScrapedWebsites = async (req: AuthRequest, res: Response): Promise<void> => {
         const getScrapedWebsitesValidation = J.object({
@@ -51,9 +76,34 @@ export default class WebsiteService {
     };
 
     /**
-     * Get the links from a website scraped by the user
-     * @param req http request
-     * @param res http server response
+     * @api {get} /website/links Get all the links scraped from a website
+     * @apiName GetWebsiteLinks
+     * @apiGroup Website
+     * @apiVersion  1.0.0
+     * @apiPermission USER
+     * @apiHeader {String} Authorization Bearer token
+     * @apiParam  {String} website Website url
+     * @apiParam  {Number} [page=1] Page number
+     * @apiSuccess (200) {Object[]} links List of links
+     * @apiSuccess (200) {String} links.name Link description
+     * @apiSuccess (200) {String} links.url Link url
+     * @apiSuccess (200) {Number} pagesCount Total number of pages
+     * @apiError (401) {String} message Unauthorized
+     * @apiError (500) {String} message Internal server error
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *  "links": [
+     *      {
+     *          "name": "Mock link 1",
+     *          "url": "https://www.mock-website.com/mock-link-1"
+     *      },
+     *      {
+     *          "name": "Mock link 2",
+     *          "url": "https://www.mock-website.com/mock-link-2"
+     *      }
+     *   ],
+     *   "pagesCount": 1
+     * }
      */
     getWebsiteLinks = async (req: AuthRequest, res: Response): Promise<void> => {
         const getWebsiteLinksBodyValidation = J.object({

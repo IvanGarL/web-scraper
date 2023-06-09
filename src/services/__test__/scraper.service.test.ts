@@ -1,4 +1,4 @@
-import Chance from 'chance';
+import * as Chance from 'chance';
 import { DateTime } from 'luxon';
 import * as request from 'supertest';
 import App from '../../app';
@@ -18,8 +18,8 @@ describe('When sending a POST request to /scraper/website', () => {
             exp: DateTime.local().plus({ hours: 1 }).toJSDate(),
         });
         
-        const response = await request(app.getServer()).post('/scraper/website').query({
-            url: 'https://www.mock-website.com',
+        const response = await request(app.getServer()).post('/scraper/website').send({
+            website: 'https://www.mock-website.com',
         });
 
         expect(response).toBe(1);
