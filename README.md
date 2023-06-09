@@ -1,4 +1,5 @@
 # web-scrapper
+NodeJS server that enables scraping websites using a basic user authentication
 
 Tools used to implement the solution
 - Express: expose the BackEnd server APIs with a routing framework built-in the library.  
@@ -28,9 +29,10 @@ Instructions to run the server
     just run ```docker-compose up -d``` in terminal in the root directory
 
 - Docs:  
-    Theres the option of exploring the services using the Postman collection available in the root directory. Import the file 'Website scraper server.postman_collection.json' to postman and create a new env variable called ```basicUrl``` with the value of 'http://localhost:8080'.
+    1. Theres the option of exploring the services using the Postman collection available in the root directory. Import the file 'Website scraper server.postman_collection.json' to postman and create a new env variable called ```basicUrl``` with the value of 'http://localhost:8080'.
     
-    All the code is documented in ```./docs/index.html```
+    2. All the code is documented in ```./docs/index.html```
+    3. The API REST docs is available in github-pages in this link: https://ivangarl.github.io/web-scraper/
     
 - Test:
     Run the test suite running: ```npm run test```
