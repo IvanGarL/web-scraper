@@ -25,7 +25,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"nicolasortiz@yopmail.com\",\n    \"password\": \"123456789abcd\",\n    \"passwordConfirmation\": \"123456789abcd\",\n    \"role\": \"user\"\n}",
+					"raw": "{\n    \"email\": \"ivangarl@yopmail.com\",\n    \"password\": \"123456789abcd\",\n    \"passwordConfirmation\": \"123456789abcd\",\n    \"role\": \"user\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -121,15 +121,71 @@
 			"name": "List scraped websites",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{basicUrl}}/website/all?page=1",
+					"host": [
+						"{{basicUrl}}"
+					],
+					"path": [
+						"website",
+						"all"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "List scraped links for a website",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Auth}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"website\": \"https://www.larepublica.co/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{basicUrl}}/website/links?page=1",
+					"host": [
+						"{{basicUrl}}"
+					],
+					"path": [
+						"website",
+						"links"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
 			},
 			"response": []
 		}
