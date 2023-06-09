@@ -1,0 +1,7 @@
+{
+    "name": "Website scrapper project",
+    "version": "1.0.0",
+    "description": "REST APIs availables for a backend server to scrap websites",
+    "title": "Website scrapper APIs",
+    "url" : "https://github.com/IvanGarL/web-scraper"
+}
