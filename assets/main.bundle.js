@@ -42397,7 +42397,7 @@ function init () {
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "Fri Jun 09 2023 01:17:00 GMT-0500 (Colombia Standard Time)",
+    "time": "Fri Jun 09 2023 01:19:25 GMT-0500 (Colombia Standard Time)",
     "url": "https://apidocjs.com",
     "version": "1.0.3"
   }

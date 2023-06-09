@@ -9,7 +9,7 @@
         "test": "jest --forceExit --detectOpenHandles",
         "lint": "tslint -p tsconfig.json -c tslint.json",
         "docs": "npx typedoc --entryPointStrategy expand ./src --out ./docs",
-        "api-docs": "npx apidoc -c ./apidoc.json -i ./src/services -o api/ -d -q"
+        "api-docs": "npx apidoc -c ./apidoc.json -i ./src/services -o ./ -d -q"
     },
     "dependencies": {
         "@types/bcrypt": "^3.0.0",
