@@ -1,4 +1,5 @@
-import { DataSource, EntityManager } from 'typeorm';
+import { asyncify, mapLimit } from 'async';
+import { DataSource, EntityManager, EntityMetadata } from 'typeorm';
 import { dbConfig } from './db.config';
 
 /**
@@ -44,5 +45,57 @@ export class DatabaseConnection {
         } catch (e) {
             console.error('Error closing connection', e);
         }
+    }
+
+    /**
+     * Reset the database connections
+     */
+    public async resetConnections(): Promise<void> {
+        const entities = this.dataSource.entityMetadatas;
+        await Promise.all([
+            // Delete each entity's table rows
+            await mapLimit(
+                entities,
+                5,
+                asyncify(async (entity: EntityMetadata) => {
+                    try {
+                        // Reset tables information
+                        const repository = this.dataSource.getRepository(entity.name);
+                        await repository.query(
+                            `ALTER TABLE ${entity.schema || 'public'}.${
+                                entity.tableNameWithoutPrefix
+                            } DISABLE TRIGGER ALL;`,
+                        );
+
+                        await repository.query(
+                            `DELETE FROM ${entity.schema || 'public'}.${entity.tableNameWithoutPrefix};`,
+                        );
+
+                        await repository.query(
+                            `ALTER TABLE ${entity.schema || 'public'}.${
+                                entity.tableNameWithoutPrefix
+                            } ENABLE TRIGGER ALL;`,
+                        );
+
+                        // Reset tables sequences
+                        const sequences = await this.dataSource.manager.query(
+                            'SELECT * FROM information_schema.sequences',
+                        );
+                        const restartSequences: Promise<any>[] = [];
+                        sequences.forEach(seq => {
+                            if (seq.sequence_name !== 'migrations_id_seq') {
+                                restartSequences.push(
+                                    this.dataSource.manager.query(`ALTER SEQUENCE ${seq.sequence_name} RESTART;`),
+                                );
+                            }
+                        });
+                        await Promise.all(restartSequences);
+                    } catch (e) {
+                        console.error(`Error while clearing the table ${entity.tableNameWithoutPrefix}`, e);
+                        throw e;
+                    }
+                }),
+            ),
+        ]);
     }
 }

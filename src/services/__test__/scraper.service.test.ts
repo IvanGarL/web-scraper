@@ -14,11 +14,13 @@ let manager: EntityManager;
 
 beforeAll(async () => {
     await app.listen();
+    await app.databaseConnection.resetConnections();
     manager = app.getDatabaseManager();
 });
 
 afterAll(async () => {
     // reset the database
+    await app.databaseConnection.resetConnections();
     await app.databaseConnection.closeConnection();
 });
 
