@@ -8,9 +8,10 @@ import UsersService from '../services/users.service';
 export class UsersRoute implements Route {
     public path = '/users';
     public router = Router();
-    public usersService = new UsersService();
+    public usersService: UsersService;
 
     constructor() {
+        this.usersService = new UsersService();
         this.initializeRoutes();
     }
 

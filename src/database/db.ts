@@ -1,21 +1,48 @@
-import { Connection, createConnection, EntityManager, getConnectionManager } from 'typeorm';
-import config from '../../ormconfig';
+import { DataSource, EntityManager } from 'typeorm';
+import { dbConfig } from './db.config';
 
 /**
- * Creates a connection with the database and return the EntityManager
- * associated with this db
- * @returns
+ * Singleton class to manage the database connection
  */
-export const getConnection = async (): Promise<EntityManager> => {
-    const connectionManager = getConnectionManager();
-    let connection: Connection;
+export class DatabaseConnection {
+    private static instance: DatabaseConnection;
 
-    if (connectionManager.has(config.name)) {
-        connection = connectionManager.get(config.name);
-    } else {
-        connection = await createConnection(config);
+    private dataSource: DataSource;
+
+    private connectionManager: EntityManager;
+
+    private constructor() {
+        if (!this.dataSource) this.dataSource = new DataSource(dbConfig);
     }
-    if (!connection.isConnected) await connection.connect();
 
-    return connection.manager;
-};
+    static async getInstance(): Promise<DatabaseConnection> {
+        if (!DatabaseConnection.instance) {
+            DatabaseConnection.instance = new DatabaseConnection();
+            DatabaseConnection.instance.dataSource = await this.instance.dataSource.initialize();
+            DatabaseConnection.instance.connectionManager = DatabaseConnection.instance.dataSource.manager;
+        }
+
+        return DatabaseConnection.instance;
+    }
+
+    public getConnectionManager(): EntityManager {
+        if (this.dataSource) return this.connectionManager;
+
+        return null;
+    }
+
+    public getDataSource(): DataSource {
+        return this.dataSource;
+    }
+
+    /**
+     * Closes the current connection
+     */
+    public async closeConnection(): Promise<void> {
+        try {
+            if (this.dataSource) await this.dataSource.destroy();
+        } catch (e) {
+            console.error('Error closing connection', e);
+        }
+    }
+}

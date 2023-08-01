@@ -1,10 +1,10 @@
 import { Response } from 'express';
-import { AuthRequest, DecodedToken } from '../interfaces/token.interface';
-import { EntityManager } from 'typeorm';
 import * as J from 'joi';
-import { getConnection } from '../database/db';
+import { EntityManager } from 'typeorm';
+import { DatabaseConnection } from '../database/db';
 import { Roles } from '../entities/User';
 import HttpError from '../exceptions/HttpException';
+import { AuthRequest, DecodedToken } from '../interfaces/token.interface';
 import { decodeToken } from '../utils/encryption';
 
 /**
@@ -39,7 +39,8 @@ export const authMiddleware = async (req: AuthRequest, res: Response, middleware
     // connect to dabatase
     let manager: EntityManager;
     try {
-        manager = await getConnection();
+        const connection = await DatabaseConnection.getInstance();
+        manager = await connection.getConnectionManager();
     } catch (e) {
         console.error('Error connecting to database', e);
         return res.status(e.status ? e.status : 500).send({ error: e.message });

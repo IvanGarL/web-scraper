@@ -1,15 +1,14 @@
 import 'dotenv/config';
-import { ConnectionOptions } from 'typeorm';
+import { DataSourceOptions } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 const rootDir = process.env.NODE_ENV === 'development' ? './src' : './dist/src';
 
-const config: ConnectionOptions = {
+const config: DataSourceOptions = {
     type: 'postgres',
-    namingStrategy: new SnakeNamingStrategy(),
-    name: 'default',
-    host: 'localhost',
     port: 5432,
+    namingStrategy: new SnakeNamingStrategy(),
+    host: '0.0.0.0',
     username: 'postgres',
     password: 'postgres',
     database: 'db',

@@ -9,8 +9,8 @@ import * as Encryption from '../../utils/encryption';
 const app = new App([new ScraperRoute()]);
 const chance = new Chance();
 
-describe('When sending a POST request to /scraper/website', () => {
-    test('then it should scrap a website and save the <a> tags', async () => {
+describe('When sending a POST request to /scraper/website, then', () => {
+    test('it should scrap a website and save the <a> tags', async () => {
         jest.spyOn(Encryption, 'decodeToken').mockReturnValue({
             _id: chance.guid(),
             role: Roles.USER,

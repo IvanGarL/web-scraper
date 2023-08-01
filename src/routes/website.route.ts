@@ -8,9 +8,10 @@ import WebsiteService from '../services/website.service';
 export class WebsiteRoute implements Route {
     public path = '/website';
     public router = Router();
-    public websiteService = new WebsiteService();
+    public websiteService: WebsiteService;
 
     constructor() {
+        this.websiteService = new WebsiteService();
         this.initializeRoutes();
     }
 

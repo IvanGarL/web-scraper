@@ -1,8 +1,8 @@
+import 'dotenv/config';
 import * as express from 'express';
-import { getConnection } from './database/db';
+import { DatabaseConnection } from './database/db';
 import Routes from './interfaces/routes.interface';
 import errorMiddleware from './middlewares/error.middleware';
-import 'dotenv/config'
 class App {
     public app: express.Application;
     public port: string | number;
@@ -10,7 +10,7 @@ class App {
     constructor(routes: Routes[]) {
         this.app = express();
         this.port = process.env.PORT || 8081;
-        
+
         this.initializeMiddlewares();
         this.initializeRoutes(routes);
         this.initializeErrorHandling();
@@ -44,10 +44,9 @@ class App {
     }
 
     private async initializeConnection() {
-        const db = await getConnection().catch(error => {
-            console.log(error);
+        await DatabaseConnection.getInstance().catch((error) => {
+            console.log('Error connecting to db', error);
         });
-       
     }
 }
 
