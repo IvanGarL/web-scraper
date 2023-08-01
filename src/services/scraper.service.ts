@@ -32,7 +32,7 @@ export default class ScraperService {
         let dbLinks: Link[] = [];
         const links = this.scraper.getLinks();
         for (const [description, url] of links) {
-            const link = new Link(description, url);
+            const link = new Link({ description, url });
             link.website = website;
             dbLinks.push(link);
         }

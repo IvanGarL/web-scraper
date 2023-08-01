@@ -9,7 +9,6 @@ import { authMiddleware } from '../middlewares/auth.middleware';
 import { PaginationUtils } from '../utils/pagination';
 
 export default class WebsiteService {
-    
     /**
      * @api {get} /website/all Get all the websites scraped by the user
      * @apiName GetScrapedWebsites

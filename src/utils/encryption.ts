@@ -9,7 +9,7 @@ import { DecodedToken } from '../interfaces/token.interface';
  * @param {string} password plain text password
  * @returns {string} hashed password
  */
-export const hashPassword = async (password: string): Promise<string> => {
+export const getHashedPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
 };

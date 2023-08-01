@@ -52,12 +52,13 @@ export class User {
     @CreateDateColumn()
     createdAt: Date;
 
-    constructor(name: string, email: string, password: string, role: Roles) {
-        this.id = new Chance().guid();
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.role = role;
-        return this;
+    constructor(payload?: { name: string; email: string; password: string; role: Roles }) {
+        if (payload) {
+            this.id = new Chance().guid();
+            this.email = payload.email;
+            this.name = payload.name;
+            this.password = payload.password;
+            this.role = payload.role;
+        }
     }
 }

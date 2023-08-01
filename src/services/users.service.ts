@@ -6,13 +6,12 @@ import { Roles, User } from '../entities/User';
 import HttpError from '../exceptions/HttpException';
 import { AuthRequest } from '../interfaces/token.interface';
 import { authMiddleware } from '../middlewares/auth.middleware';
-import { generateJWT, hashPassword, passwordMatch } from '../utils/encryption';
+import { generateJWT, getHashedPassword, passwordMatch } from '../utils/encryption';
 
 /**
  * Controller for the Users service
  */
 export default class UsersService {
-
     /**
      * @api {post} /users/register Registers a new user
      * @apiName RegisterUser
@@ -67,8 +66,13 @@ export default class UsersService {
 
                     // validates password
                     await manager.transaction(async (tmanager) => {
-                        const hashPass = await hashPassword(password);
-                        newUser = new User(name ? name.trim() : null, email.toLowerCase(), hashPass, role);
+                        const hashPassword = await getHashedPassword(password);
+                        newUser = new User({
+                            name: name ? name.trim() : null,
+                            email: email.toLowerCase(),
+                            password: hashPassword,
+                            role,
+                        });
 
                         newUser = await tmanager.save(newUser);
                         token = generateJWT(newUser);

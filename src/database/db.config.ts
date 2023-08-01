@@ -16,7 +16,7 @@ export const dbConfig: PostgresConnectionOptions = {
     username: 'postgres',
     password: 'postgres',
     extra: { max: 3 }, // Limit the postgres connection pool size (1 master and 2 slaves per pool)
-    database: 'db',
+    database: isTestEnv() ? 'db_test' : 'db',
     entities: Object.values(entities),
     migrations: Object.values(migrations),
 };

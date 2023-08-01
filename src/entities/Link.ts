@@ -36,8 +36,10 @@ export class Link {
     @CreateDateColumn()
     createdAt: Date;
 
-    constructor(description: string, url: string) {
-        this.description = description;
-        this.url = url;
+    constructor(payload?: { description: string; url: string }) {
+        if (payload) {
+            this.description = payload.description;
+            this.url = payload.url;
+        }
     }
 }
