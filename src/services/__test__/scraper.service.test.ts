@@ -7,6 +7,7 @@ import { Roles } from '../../entities/User';
 import { UserFactory } from '../../factories/UserFactory';
 import { ScraperRoute } from '../../routes/scraper.route';
 import * as Encryption from '../../utils/encryption';
+import { WebsiteScraper } from '../../utils/scraper';
 
 const app = new App([new ScraperRoute()]);
 const chance = new Chance();
@@ -14,6 +15,7 @@ let manager: EntityManager;
 
 beforeAll(async () => {
     await app.listen();
+    // reset the database
     await app.databaseConnection.resetConnections();
     manager = app.getDatabaseManager();
 });
@@ -40,6 +42,14 @@ describe('When sending a POST request to /scraper/website, then', () => {
             email: 'ivangarl@yopmail.com',
             exp: DateTime.local().plus({ hours: 1 }).toJSDate(),
         });
+        jest.spyOn(WebsiteScraper.prototype, 'scrapeWebsite').mockImplementation(() => null);
+        jest.spyOn(WebsiteScraper.prototype, 'getLinks').mockReturnValue(
+            new Map<string, string>([
+                ['link1', 'https://www.larepublica.co/link1'],
+                ['link2', 'https://www.larepublica.co/link2'],
+                ['link3', 'https://www.larepublica.co/link3'],
+            ]).entries(),
+        );
 
         const websiteToScrap = 'https://www.larepublica.co/';
         const response = await request(app.getServer()).post('/scraper/website').send({
