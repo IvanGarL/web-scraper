@@ -29,6 +29,7 @@
         "express": "^4.17.1",
         "joi": "^17.6.0",
         "jsonwebtoken": "^9.0.0",
+        "lodash": "^4.17.21",
         "luxon": "^3.3.0",
         "moment": "^2.29.1",
         "multer": "^1.4.2",
@@ -41,6 +42,7 @@
     "devDependencies": {
         "@types/express-serve-static-core": "^4.17.30",
         "@types/jest": "^29.5.2",
+        "@types/luxon": "^3.3.1",
         "apidoc": "^1.0.3",
         "jest": "^29.5.0",
         "nodemon": "^3.0.1",

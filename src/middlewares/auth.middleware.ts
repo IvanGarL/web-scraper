@@ -36,16 +36,6 @@ const validateRoles = (allowedRoles: Roles[], userRole: Roles) => {
  * @param {Middleware} middleware
  */
 export const authMiddleware = async (req: AuthRequest, res: Response, middleware: Middleware) => {
-    // connect to dabatase
-    let manager: EntityManager;
-    try {
-        const connection = await DatabaseConnection.getInstance();
-        manager = await connection.getConnectionManager();
-    } catch (e) {
-        console.error('Error connecting to database', e);
-        return res.status(e.status ? e.status : 500).send({ error: e.message });
-    }
-
     // validate token and role
     const token = req.headers.authorization;
     if (token || middleware.validateToken) {
@@ -80,6 +70,16 @@ export const authMiddleware = async (req: AuthRequest, res: Response, middleware
             return res.status(400).send({ error: 'Request query params Validation Error\n'.concat(error.message) });
     }
     console.log(req.hostname, req.originalUrl, req.path, req.body, req.method, req.headers);
+
+    // connect to dabatase
+    let manager: EntityManager;
+    try {
+        const connection = await DatabaseConnection.getInstance();
+        manager = connection.getConnectionManager();
+    } catch (e) {
+        console.error('Error connecting to database', e);
+        return res.status(e.status ? e.status : 500).send({ error: e.message });
+    }
 
     // run service after validations
     return await middleware.handler(req, res, manager).catch((error: HttpError) => {

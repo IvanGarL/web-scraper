@@ -71,7 +71,7 @@ export default class ScraperService {
 
                 const scrapedWebsite = await manager.findOne(Website, { where: { url: website, userId: _id } });
                 const lastDateConsultedDiff = scrapedWebsite
-                    ? DateTime.fromJSDate(scrapedWebsite.lastConsultedAt).diffNow('hours').hours
+                    ? DateTime.local().diff(DateTime.fromJSDate(scrapedWebsite.lastConsultedAt), 'hours').hours
                     : 0;
                 if (scrapedWebsite && lastDateConsultedDiff < 24) {
                     await manager.update(
@@ -81,10 +81,11 @@ export default class ScraperService {
                     );
                     throw new HttpError(400, 'Website already scraped');
                 } else if (scrapedWebsite) {
+                    await manager.delete(Link, { websiteId: scrapedWebsite.id });
                     await manager.update(
                         Website,
                         { url: website, userId: _id },
-                        { timesConsulted: scrapedWebsite.timesConsulted + 1, lastConsultedAt: new Date(), links: [] },
+                        { timesConsulted: scrapedWebsite.timesConsulted + 1, lastConsultedAt: new Date() },
                     );
 
                     await this.loadLinksToWebsite(manager, scrapedWebsite);
