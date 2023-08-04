@@ -10,7 +10,7 @@ import { PaginationUtils } from '../utils/pagination';
 
 export default class WebsiteService {
     /**
-     * @api {get} /website/all Get all the websites scraped by the user
+     * @api {GET} /website Get all the websites scraped by the user
      * @apiName GetScrapedWebsites
      * @apiGroup Website
      * @apiVersion  1.0.0
@@ -75,7 +75,7 @@ export default class WebsiteService {
     };
 
     /**
-     * @api {get} /website/links Get all the links scraped from a website
+     * @api {GET} /website/links Get all the links scraped from a website
      * @apiName GetWebsiteLinks
      * @apiGroup Website
      * @apiVersion  1.0.0

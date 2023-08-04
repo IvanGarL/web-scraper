@@ -16,7 +16,7 @@ export class WebsiteRoute implements Route {
     }
 
     private initializeRoutes() {
-        this.router.get(`${this.path}/all`, this.websiteService.getScrapedWebsites);
+        this.router.get(`${this.path}`, this.websiteService.getScrapedWebsites);
         this.router.get(`${this.path}/links`, this.websiteService.getWebsiteLinks);
     }
 }
