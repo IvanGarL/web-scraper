@@ -1,4 +1,4 @@
-import { Roles } from "entities/User";
+import { Roles } from 'entities/User';
 
 /**
  * Payload for the User register request
@@ -8,7 +8,6 @@ export interface UserSignUpRequest {
     email: string;
     password: string;
     passwordConfirmation: string;
-    role: Roles;
 }
 
 /**

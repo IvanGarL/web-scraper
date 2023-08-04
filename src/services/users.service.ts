@@ -13,7 +13,7 @@ import { generateJWT, getHashedPassword, passwordMatch } from '../utils/encrypti
  */
 export default class UsersService {
     /**
-     * @api {post} /users/register Registers a new user
+     * @api {POST} /users/register Registers a new user
      * @apiName RegisterUser
      * @apiGroup Auth
      * @apiVersion  1.0.0
@@ -41,11 +41,8 @@ export default class UsersService {
         const signUpValidationSchema = J.object({
             name: J.string().optional(),
             email: J.string().email().required(),
-            password: J.string().min(10).alphanum().required(),
-            passwordConfirmation: J.string().min(10).alphanum().required(),
-            role: J.string()
-                .valid(...Object.values(Roles))
-                .required(),
+            password: J.string().min(10).required(),
+            passwordConfirmation: J.string().min(10).required(),
         });
         return authMiddleware(req, res, {
             bodyValidation: signUpValidationSchema,
@@ -54,7 +51,7 @@ export default class UsersService {
                 let newUser: User;
                 let token: string;
                 try {
-                    const { name, email, password, passwordConfirmation, role }: UserSignUpRequest = req.body;
+                    const { name, email, password, passwordConfirmation }: UserSignUpRequest = req.body;
 
                     if (password !== passwordConfirmation) throw new HttpError(400, 'Passwords dont match');
 
@@ -64,14 +61,13 @@ export default class UsersService {
                         throw new HttpError(409, `A user with the email ${email} already exists`);
                     }
 
-                    // validates password
                     await manager.transaction(async (tmanager) => {
                         const hashPassword = await getHashedPassword(password);
                         newUser = new User({
                             name: name ? name.trim() : null,
                             email: email.toLowerCase(),
                             password: hashPassword,
-                            role,
+                            role: Roles.USER,
                         });
 
                         newUser = await tmanager.save(newUser);
@@ -92,7 +88,7 @@ export default class UsersService {
     };
 
     /**
-     * @api {post} /users/login Logs in a user
+     * @api {POST} /users/login Logs in a user
      * @apiName LogInUser
      * @apiGroup Auth
      * @apiVersion  1.0.0
@@ -114,7 +110,7 @@ export default class UsersService {
     logIn = async (req: AuthRequest, res: Response) => {
         const logInValidationSchema = J.object({
             email: J.string().email().required(),
-            password: J.string().min(10).alphanum().required(),
+            password: J.string().min(10).required(),
         });
         return authMiddleware(req, res, {
             bodyValidation: logInValidationSchema,
